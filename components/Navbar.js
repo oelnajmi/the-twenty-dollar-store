@@ -1,8 +1,12 @@
 import { Menu, Transition } from '@headlessui/react';
 import { Bars4Icon } from '@heroicons/react/24/solid';
+import { signOut, useSession } from 'next-auth/react';
 import Link from 'next/link';
 
 const Navbar = () => {
+  const { data: session } = useSession();
+  // console.log(session);
+
   return (
     <nav className="w-full top-0 left-0 z-10">
       <div className="shadow-md sm:shadow-none flex sm:flex-col justify-between items-center mx-auto">
@@ -30,43 +34,36 @@ const Navbar = () => {
               </a>
             </li>
 
-            <Link href="/SignIn">
-              <button className="nav-button">Log in</button>
-            </Link>
-            <Link href="/SignUp">
-              <button className="nav-button">Sign Up</button>
-            </Link>
-
-            <Link href="/api/auth/signout">
-              <a
-                onClick={(e) => {
-                  e.preventDefault();
-                  signOut('google', {
-                    callbackUrl: 'http://localhost:3000/',
-                  });
-                }}
-              >
-                <button className="nav-button">Log Out</button>
-              </a>
-            </Link>
+            {!session && (
+              <>
+                <Link href="/SignIn">
+                  <button className="nav-button">Log in</button>
+                </Link>
+                <Link href="/SignUp">
+                  <button className="nav-button">Sign Up</button>
+                </Link>
+              </>
+            )}
+            {session && (
+              <>
+                <Link href="/api/auth/signout">
+                  <a
+                    onClick={(e) => {
+                      e.preventDefault();
+                      signOut('google', {
+                        callbackUrl: 'http://localhost:3000/',
+                      });
+                    }}
+                  >
+                    <button className="nav-button">Log Out</button>
+                  </a>
+                </Link>
+              </>
+            )}
           </ul>
           <div className="sm:hidden">
             <Menu as="div" className="relative inline-block text-left">
               <Menu.Button className="inline-flex w-full justify-center rounded-md px-4 py-2 text-sm font-medium">
-                {/* <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  strokeWidth="1.5"
-                  stroke="currentColor"
-                  className="w-6 h-6"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    d="M12 6.75a.75.75 0 110-1.5.75.75 0 010 1.5zM12 12.75a.75.75 0 110-1.5.75.75 0 010 1.5zM12 18.75a.75.75 0 110-1.5.75.75 0 010 1.5z"
-                  />
-                </svg> */}
                 <Bars4Icon className="mx-auto h-8 w-8 text-black" />
               </Menu.Button>
 

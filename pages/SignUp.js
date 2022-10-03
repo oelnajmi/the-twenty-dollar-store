@@ -9,15 +9,12 @@ const SignUp = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
-
   const router = useRouter();
 
   const handleSubmit = async (event) => {
     event.preventDefault();
     try {
       const data = {
-        firstName,
-        lastName,
         userName,
         password,
         email,
@@ -32,6 +29,7 @@ const SignUp = () => {
         },
         body: JSONdata,
       };
+
       const response = await fetch(endpoint, options);
       const result = await response.json();
       if (result.error) {
@@ -118,9 +116,7 @@ const SignUp = () => {
                 className="inline-block w-full "
                 onClick={(e) => {
                   e.preventDefault();
-                  signIn('google', {
-                    callbackUrl: 'http://localhost:3000/',
-                  });
+                  signIn('google', { callbackUrl: 'http://localhost:3000/' });
                 }}
                 role="button"
                 data-mdb-ripple="true"
