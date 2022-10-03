@@ -8,7 +8,11 @@ module.exports = {
     themes: ['retro'],
   },
   theme: {
-    extend: {},
+    extend: {
+      fontFamily: {
+        burtons: 'burtons',
+      },
+    },
   },
   plugins: [require('daisyui')],
 };
